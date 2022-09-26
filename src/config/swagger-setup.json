@@ -1,0 +1,13 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Routine API",
+        "description": "This service is responsible of creating and managin routines"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:4001",
+            "description": "Local server"
+        }
+    ]
+}
