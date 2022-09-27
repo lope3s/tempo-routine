@@ -2,12 +2,112 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Routine API",
-        "description": "This service is responsible of creating and managin routines"
+        "description": "This service is responsible of creating and managing routines"
     },
     "servers": [
         {
             "url": "http://localhost:4001",
             "description": "Local server"
         }
-    ]
+    ],
+    "paths": {
+        "/labels": {
+            "post": {
+                "description": "Create a label",
+                "tags": ["Labels"],
+                "security": [{"bearerAuth": []}],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Home tasks"
+                                    }
+                                },
+                                "required": ["name"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "The following fields are missing"
+                                        },
+                                        "missingFields": {
+                                            "type": "array",
+                                            "items": "string",
+                                            "example": ["name"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No token provided. || Invalid token.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "No token provided": {
+                                        "value": {
+                                            "error": "No token provided."
+                                        }
+                                    },
+                                    "Invalid token": {
+                                        "value": {
+                                            "error": "Invalid token."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Label created."
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "6332d55bccbd5e07dd5f0c74"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "format": "JWT"
+            }
+        }
+    }
 }

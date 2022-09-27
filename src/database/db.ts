@@ -2,10 +2,13 @@ import { MongoClient } from "mongodb";
 
 const client = new MongoClient(process.env.MONGO_CONNECTION_STRING || "").db('routines')
 
-function setUpDb() {
-    client.createCollection('labels')
-    client.createCollection('tasks')
-    client.createCollection('strikes')
+async function setUpDb() {
+    const collections = await client.collections()
+    if (!collections.length) {
+        client.createCollection('labels')
+        client.createCollection('tasks')
+        client.createCollection('strikes')
+    }
 }
 
 export {

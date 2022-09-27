@@ -7,6 +7,8 @@ class Task {
     userId: ObjectId;
     recurrence: any;
     taskNotes: string;
+    createdAt: Date;
+    deletedAt: null | Date;
 
     constructor(name: string, timeDay: string, labels: string[], userId: string, recurrence: any, taskNotes: string) {
         this.name = name;
@@ -14,7 +16,9 @@ class Task {
         this.labels = labels.map(label => new ObjectId(label));
         this.userId = new ObjectId(userId);
         this.recurrence = recurrence;
-        this.taskNotes = taskNotes
+        this.taskNotes = taskNotes;
+        this.createdAt = new Date();
+        this.deletedAt = null;
     }
 }
 

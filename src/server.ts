@@ -18,8 +18,8 @@ server.use(morgan("combined"))
 
 server.use(routes)
 
-server.listen(process.env.APP_PORT, () => {
-    console.log(`Server running on http://localhost:${process.env.APP_PORT}`)
+server.listen(process.env.APP_PORT, async () => {
+    await setUpDb();
 
-    setUpDb();
+    console.log(`Server running on http://localhost:${process.env.APP_PORT}`)
 })
