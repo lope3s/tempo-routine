@@ -1,9 +1,15 @@
 import validateObjAgainstSchema from "./validateObjAgainstSchema";
 import {
-    createLabel
+    createLabel,
+    listLabels,
+    updateLabel,
+    deleteLabel
 } from './crudLabels'
 
 export {
     validateObjAgainstSchema,
-    createLabel
+    createLabel,
+    listLabels,
+    updateLabel,
+    deleteLabel
 }

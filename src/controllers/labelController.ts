@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { validateObjAgainstSchema, createLabel } from '../helpers';
+import { validateObjAgainstSchema, createLabel, listLabels, deleteLabel, updateLabel } from '../helpers';
 import { Label } from '../entities';
 
 class LabelController {
-    async createLabel(req: Request, res: Response){
+    async storeLabel(req: Request, res: Response){
         const isBodyValid = validateObjAgainstSchema(Label, req.body)
 
         if(!isBodyValid.valid) {
@@ -19,6 +19,41 @@ class LabelController {
             message: "Label created.",
             id: labelCreated.insertedId
         })
+    }
+
+    async showLabels(req: Request, res: Response) {
+        if (req.query.name) req.query.name = {
+            $regex: req.query.name,
+            $options: 'i'
+        }
+
+        const labels = await (await listLabels(req.query)).toArray()
+
+        if (labels.length) {
+            return res.status(200).json({result: labels})
+        }
+
+        return res.status(404).json({error: 'No data found.'})
+    }
+
+    async updateLabels(req: Request, res: Response) {
+        if (!req.params.labelId) return res.status(400).json({error: "No labelId provided."})
+
+        try {
+            await updateLabel(req.params.labelId, req.body)
+
+            return res.status(200).json({message: "Label updated."})
+        } catch (error: any) {
+            return res.status(404).json({error: error.message})
+        }
+    }
+
+    async deleteLabels(req: Request, res: Response) {
+        if (!req.params.labelId) return res.status(400).json({error: "No labelId provided."})
+
+        await deleteLabel(req.params.labelId)
+
+        return res.status(204).end()
     }
 }
 
