@@ -1,6 +1,6 @@
 function validateObjAgainstSchema(Class: any, obj: {[key: string]: any}) {
     const classInstanceKeys = Object.entries(new Class())
-            .filter(([key, value]) => value === undefined)
+        .filter(([key, value]) => value === undefined)
         .map(([key, value]) => key)
 
     const objEntries = classInstanceKeys.map(key => [key, obj[key]])

@@ -4,10 +4,11 @@ describe("Testing task entity", () => {
     it("Should return the right object with the correct data", () =>{
         const expectedKeys = [
             "name",
-            "timeDay",
+            "recurrenceType",
+            "recurrenceValue",
+            "hour",
             "labels",
             "userId",
-            "recurrence",
             "taskNotes",
             "createdAt",
             "deletedAt"
@@ -16,11 +17,12 @@ describe("Testing task entity", () => {
         const receivedKeys = Object.keys(
             new Task(
                 '',
-                new Date().toDateString(),
+                0,
+                'EM',
+                12,
                 [],
                 '0a1sd23f4w8e',
                 '',
-                ''
             )
         )
     

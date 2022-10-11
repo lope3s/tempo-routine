@@ -4,12 +4,16 @@ import {
     listLabels,
     updateLabel,
     deleteLabel
-} from './crudLabels'
+} from './crudLabels';
+import {
+    createTask
+} from './crudTasks';
 
 export {
     validateObjAgainstSchema,
     createLabel,
     listLabels,
     updateLabel,
-    deleteLabel
+    deleteLabel,
+    createTask
 }

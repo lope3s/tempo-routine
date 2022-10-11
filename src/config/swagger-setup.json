@@ -360,6 +360,135 @@
                     }
                 }
             }
+        },
+        "/tasks": {
+            "post": {
+                "description": "Create task",
+                "tags": ["Tasks"],
+                "security": [{"bearerAuth": []}],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Tidy the bed"
+                                    },
+                                    "recurrenceType":  {
+                                        "type": "number",
+                                        "example": 0
+                                    },
+                                    "recurrenceValue":  {
+                                        "type": "string",
+                                        "example": "EM"
+                                    },
+                                    "hour": {
+                                        "type": "number",
+                                        "example": 23
+                                    },
+                                    "labels": {
+                                        "type": "array",
+                                        "items": "string",
+                                        "example": ["6345cc0864b8658185372db0"]
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "example": "6345cc0864b8658185372db0"
+                                    },
+                                    "taskNotes": {
+                                        "type": "string",
+                                        "example": "A very extense text."
+                                    }
+                                },
+                                "required": ["name", "recurrenceType", "recurrenceValue", "hour", "labels", "userId", "taskNotes"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "The following fields are missing"
+                                        },
+                                        "missingFields": {
+                                            "type": "array",
+                                            "items": "string",
+                                            "example": ["name"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No token provided. || Invalid token.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "No token provided": {
+                                        "value": {
+                                            "error": "No token provided."
+                                        }
+                                    },
+                                    "Invalid token": {
+                                        "value": {
+                                            "error": "Invalid token."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Internal server error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Task created."
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "6332d55bccbd5e07dd5f0c74"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
