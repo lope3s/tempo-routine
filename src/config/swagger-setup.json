@@ -126,6 +126,21 @@
                     }
                 ],
                 "responses": {
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid ID format."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "401": {
                         "description": "No token provided. || Invalid token.",
                         "content": {
@@ -221,8 +236,19 @@
                                 "schema": {
                                     "properties": {
                                         "error": {
-                                            "type": "string",
-                                            "example": "No labelId provided."
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "No labelId provided": {
+                                        "value": {
+                                            "error": "No labelId provided."
+                                        }
+                                    },
+                                    "Invalid ID format.": {
+                                        "value": {
+                                            "error": "Invalid ID format."
                                         }
                                     }
                                 }
@@ -306,8 +332,19 @@
                                 "schema": {
                                     "properties": {
                                         "error": {
-                                            "type": "string",
-                                            "example": "No labelId provided."
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "No labelId provided": {
+                                        "value": {
+                                            "error": "No labelId provided."
+                                        }
+                                    },
+                                    "Invalid ID format.": {
+                                        "value": {
+                                            "error": "Invalid ID format."
                                         }
                                     }
                                 }
@@ -488,6 +525,325 @@
                         }
                     }
                 }
+            },
+            "get": {
+                "description": "Lists all tasks, or apply a set o query rules",
+                "tags": ["Tasks"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "query",
+                        "description": "Task ID."
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Task name."
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Task userId."
+                    },
+                    {
+                        "name": "createdAt",
+                        "in": "query",
+                        "description": "Task createdAt date string."
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid ID format."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No token provided. || Invalid token.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "No token provided": {
+                                        "value": {
+                                            "error": "No token provided."
+                                        }
+                                    },
+                                    "Invalid token": {
+                                        "value": {
+                                            "error": "Invalid token."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No data found."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/task"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks/{taskId}": {
+            "put": {
+                "description": "Update task.",
+                "tags": ["Tasks"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "description": "Task ID."
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Tasks"
+                                    },
+                                    "recurrenceType": {
+                                        "type": "number",
+                                        "example": 0
+                                    },
+                                    "recurrenceValue": {
+                                        "type": "string",
+                                        "example": "EM"
+                                    },
+                                    "hour": {
+                                        "type": "number",
+                                        "example": 23
+                                    },
+                                    "labels": {
+                                        "type": "array",
+                                        "items": "string",
+                                        "example": ["6345cc0864b8658185372db0"]
+                                    },
+                                    "taskNotes": {
+                                        "type": "string",
+                                        "example": "A very extense text."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "No task ID provided": {
+                                        "value": {
+                                            "error": "No task ID provided."
+                                        }
+                                    },
+                                    "Invalid ID format.": {
+                                        "value": {
+                                            "error": "Invalid ID format."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No token provided. || Invalid token.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "No token provided": {
+                                        "value": {
+                                            "error": "No token provided."
+                                        }
+                                    },
+                                    "Invalid token": {
+                                        "value": {
+                                            "error": "Invalid token."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Task not found."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Task updated."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete task.",
+                "tags": ["Tasks"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "description": "Task ID."
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "No task ID provided": {
+                                        "value": {
+                                            "error": "No task ID provided."
+                                        }
+                                    },
+                                    "Invalid ID format.": {
+                                        "value": {
+                                            "error": "Invalid ID format."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No token provided. || Invalid token.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "No token provided": {
+                                        "value": {
+                                            "error": "No token provided."
+                                        }
+                                    },
+                                    "Invalid token": {
+                                        "value": {
+                                            "error": "Invalid token."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Task not found."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No content."
+                    }
+                }
             }
         }
     },
@@ -514,6 +870,52 @@
                     "userId": {
                         "type": "string",
                         "example": "6332d9f019b387f4fbffadd8"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "example": "2022-09-27T11:09:36.752Z"
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "example": null
+                    }
+                }
+            },
+            "task": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "6332d9f019b387f4fbffadd9"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Home tasks"
+                    },
+                    "recurrenceType": {
+                        "type": "number",
+                        "example": 0
+                    },
+                    "recurrenceValue": {
+                        "type": "string",
+                        "example": "EM"
+                    },
+                    "hour": {
+                        "type": "number",
+                        "example": 23
+                    },
+                    "labels": {
+                        "type": "array",
+                        "items": "string",
+                        "example": ["6346e1bf9d8942b9e49db180"]
+                    },
+                    "userId": {
+                        "type": "string",
+                        "example": "6345cc0864b8658185372db0"
+                    },
+                    "taskNotes": {
+                        "type": "string",
+                        "example":"A very extense text."
                     },
                     "createdAt": {
                         "type": "string",

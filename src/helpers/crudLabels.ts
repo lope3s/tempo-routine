@@ -17,10 +17,12 @@ async function updateLabel(labelId: string, updatingObj: {[key: string]: any}) {
 
     if (!label) throw Error("Label not found.")
 
+    const {_id, userId, createdAt, deletedAt, ...rest} = label
+
     const validFields: {[key: string]: any} = {}
 
     Object.entries(updatingObj)
-    .filter(([key, value]) => label[key] !== undefined)
+    .filter(([key, value]) => rest[key] !== undefined)
     .forEach(([key, value]) => validFields[key] = value)
 
     const updatedLabelObj = {...label, ...validFields}

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { validateObjAgainstSchema, createLabel, listLabels, deleteLabel, updateLabel } from '../helpers';
 import { Label } from '../entities';
+import { ObjectId } from 'mongodb';
 
 class LabelController {
     async storeLabel(req: Request, res: Response){
@@ -27,6 +28,14 @@ class LabelController {
             $options: 'i'
         }
 
+        if(req.query._id) {
+            try {
+                new ObjectId(req.query._id as string)
+            } catch (error) {
+                return res.status(400).json({error: "Invalid ID format."})
+            }
+        }
+
         const labels = await (await listLabels(req.query)).toArray()
 
         if (labels.length) {
@@ -40,6 +49,12 @@ class LabelController {
         if (!req.params.labelId) return res.status(400).json({error: "No labelId provided."})
 
         try {
+            new ObjectId(req.params.labelId as string)
+        } catch (error) {
+            return res.status(400).json({error: "Invalid ID format."})
+        }
+
+        try {
             await updateLabel(req.params.labelId, req.body)
 
             return res.status(200).json({message: "Label updated."})
@@ -50,6 +65,12 @@ class LabelController {
 
     async deleteLabels(req: Request, res: Response) {
         if (!req.params.labelId) return res.status(400).json({error: "No labelId provided."})
+
+        try {
+            new ObjectId(req.params.labelId as string)
+        } catch (error) {
+            return res.status(400).json({error: "Invalid ID format."})
+        }
 
         await deleteLabel(req.params.labelId)
 

@@ -6,7 +6,10 @@ import {
     deleteLabel
 } from './crudLabels';
 import {
-    createTask
+    createTask,
+    listTasks,
+    deleteTask,
+    updateTask
 } from './crudTasks';
 
 export {
@@ -15,5 +18,8 @@ export {
     listLabels,
     updateLabel,
     deleteLabel,
-    createTask
+    createTask,
+    listTasks,
+    deleteTask,
+    updateTask
 }

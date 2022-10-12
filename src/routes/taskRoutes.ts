@@ -6,6 +6,9 @@ const taskRoutes = Router()
 
 taskRoutes.use(authorize)
 
-taskRoutes.post('/', LabelController.storeTask)
+taskRoutes.post('/', LabelController.storeTask);
+taskRoutes.get('/', LabelController.showTask);
+taskRoutes.put('/:taskId', LabelController.updateTask);
+taskRoutes.delete('/:taskId', LabelController.deleteTask);
 
 export default taskRoutes;
