@@ -6,6 +6,16 @@ import { ObjectId } from "mongodb";
 class TaskController {
     async storeTask(req: Request, res: Response) {
         try {
+            if(req.body.labels.length && Array.isArray(req.body.labels)) {
+                for(const userId of req.body.labels) {
+                    try {
+                        new ObjectId(userId as string)
+                    } catch (error) {
+                        return res.status(400).json({error: "Invalid ID format."})
+                    }
+                }
+            }
+
             const validatedReqBody = validateObjAgainstSchema(Task, req.body)
 
             if(!validatedReqBody.valid) return res.status(400).json({error: 'The following fields are missing', missingField: validatedReqBody.missingFields})
@@ -46,8 +56,6 @@ class TaskController {
     }
 
     async updateTask(req: Request, res: Response) {
-        if (!req.params.taskId) return res.status(400).json({error: "No task ID provided."})
-
         try {
             new ObjectId(req.params.taskId as string)
         } catch (error) {
@@ -64,8 +72,6 @@ class TaskController {
     }
 
     async deleteTask(req: Request, res: Response) {
-        if (!req.params.taskId) return res.status(400).json({error: "No task ID provided."})
-
         try {
             new ObjectId(req.params.taskId as string)
         } catch (error) {

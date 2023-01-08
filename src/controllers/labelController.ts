@@ -23,17 +23,17 @@ class LabelController {
     }
 
     async showLabels(req: Request, res: Response) {
-        if (req.query.name) req.query.name = {
-            $regex: req.query.name,
-            $options: 'i'
-        }
-
         if(req.query._id) {
             try {
                 new ObjectId(req.query._id as string)
             } catch (error) {
                 return res.status(400).json({error: "Invalid ID format."})
             }
+        }
+
+        if (req.query.name) req.query.name = {
+            $regex: req.query.name,
+            $options: 'i'
         }
 
         const labels = await (await listLabels(req.query)).toArray()
@@ -46,8 +46,6 @@ class LabelController {
     }
 
     async updateLabels(req: Request, res: Response) {
-        if (!req.params.labelId) return res.status(400).json({error: "No labelId provided."})
-
         try {
             new ObjectId(req.params.labelId as string)
         } catch (error) {
@@ -64,8 +62,6 @@ class LabelController {
     }
 
     async deleteLabels(req: Request, res: Response) {
-        if (!req.params.labelId) return res.status(400).json({error: "No labelId provided."})
-
         try {
             new ObjectId(req.params.labelId as string)
         } catch (error) {

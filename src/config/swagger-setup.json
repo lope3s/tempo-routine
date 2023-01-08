@@ -926,6 +926,15 @@
                         "example": null
                     }
                 }
+            },
+            "recurrenceType": {
+                "type": "number",
+                "example": [
+                    "Every day of the week x = 0",
+                    "Every day x = 1",
+                    "Every month x = 2",
+                    "Personalized recurrence = 3"
+                ]
             }
         }
     }

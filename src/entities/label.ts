@@ -2,13 +2,13 @@ import { ObjectId } from 'mongodb'
 
 class Label {
     name: string;
-    userId: ObjectId;
+    userId: ObjectId | undefined;
     createdAt: Date;
     deletedAt: null | Date;
 
     constructor(name: string, userId: string) {
         this.name = name;
-        this.userId = new ObjectId(userId);
+        this.userId = userId ? new ObjectId(userId) : undefined;
         this.createdAt = new Date();
         this.deletedAt = null;
     }
